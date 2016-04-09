@@ -17,6 +17,7 @@ namespace SteganographyUI
         public String OpenImagePath { get; set; }
         private readonly OpenFileDialog OpenDialog = new OpenFileDialog();
         private SaveFileDialog SaveDialog = new SaveFileDialog();
+        private EAlgoSelect m_SelectedAlgorithm = EAlgoSelect.E_STEGA_ALGO;
         public Form1()
         {
             InitializeComponent();
@@ -75,6 +76,37 @@ namespace SteganographyUI
         {
             Preferinte pf = new Preferinte();
             pf.ShowDialog();
+        }
+
+
+        private void algo1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            switch (m_SelectedAlgorithm)
+            {
+                case EAlgoSelect.E_STEGA_ALGO:
+
+                    break;
+                case EAlgoSelect.E_BATTLESEG_ALGO:
+                    m_SelectedAlgorithm = EAlgoSelect.E_STEGA_ALGO;
+                    algo1ToolStripMenuItem.CheckState = CheckState.Checked;
+                    algo2ToolStripMenuItem.CheckState = CheckState.Unchecked;
+                    break;
+                default: break;
+            }
+        }
+
+        private void algo2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            switch (m_SelectedAlgorithm)
+            {
+                case EAlgoSelect.E_STEGA_ALGO:
+                    m_SelectedAlgorithm = EAlgoSelect.E_BATTLESEG_ALGO;
+                    algo2ToolStripMenuItem.CheckState = CheckState.Checked;
+                    algo1ToolStripMenuItem.CheckState = CheckState.Unchecked;
+                    break;
+                case EAlgoSelect.E_BATTLESEG_ALGO: break;
+                default: break;
+            }
         }
     }
 

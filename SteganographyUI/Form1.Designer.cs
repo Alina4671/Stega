@@ -100,15 +100,20 @@
             // 
             // algo1ToolStripMenuItem
             // 
+            this.algo1ToolStripMenuItem.Checked = true;
+            this.algo1ToolStripMenuItem.CheckOnClick = true;
+            this.algo1ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.algo1ToolStripMenuItem.Name = "algo1ToolStripMenuItem";
             this.algo1ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.algo1ToolStripMenuItem.Text = "Algo1";
+            this.algo1ToolStripMenuItem.Click += new System.EventHandler(this.algo1ToolStripMenuItem_Click);
             // 
             // algo2ToolStripMenuItem
             // 
             this.algo2ToolStripMenuItem.Name = "algo2ToolStripMenuItem";
             this.algo2ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.algo2ToolStripMenuItem.Text = "Algo2";
+            this.algo2ToolStripMenuItem.Click += new System.EventHandler(this.algo2ToolStripMenuItem_Click);
             // 
             // setariToolStripMenuItem
             // 
