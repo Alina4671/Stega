@@ -103,6 +103,12 @@
   <ItemGroup>
     <None Include="Resources\6a0147e41f3c0a970b015435e9654a970c-800wi1.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SteganographyDll\SteganographyDll.csproj">
+      <Project>{bf1d0808-61eb-4282-916c-41b123ab5387}</Project>
+      <Name>SteganographyDll</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

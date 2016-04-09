@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO;
 using System.Drawing.Imaging;
+using SteganographyDll;
 namespace SteganographyUI
 {
     public partial class Form1 : Form
@@ -18,11 +19,24 @@ namespace SteganographyUI
         
         private readonly OpenFileDialog OpenDialog = new OpenFileDialog();
         private SaveFileDialog SaveDialog = new SaveFileDialog();
-        
+
+        private SteganographyAbstractFactory stegaFactory = SteganographyProducer.GetFactory();
+        private ISteganographyFormats format;
+        private readonly String[] m_SupportedExtensions = { ".bmp", ".png", ".jpg" };
+        private Bitmap m_EncodedImage;
+
+
         public Form1()
         {
             InitializeComponent();
+            initUiComponentsDefaultStates();
+        }
+
+        private void initUiComponentsDefaultStates()
+        {
             preferences.SelectedAlgorithm = EAlgoSelect.E_STEGA_ALGO;
+            button1.Enabled = false;
+            button2.Enabled = false;
         }
 
         private void selecteazaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -37,6 +51,8 @@ namespace SteganographyUI
                 preferences.ImagePath = OpenDialog.InitialDirectory + OpenDialog.FileName;
                 pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
                 pictureBox1.ImageLocation = preferences.ImagePath;
+                button1.Enabled = true;
+                button2.Enabled = true;
             }
         }
 
@@ -114,10 +130,37 @@ namespace SteganographyUI
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //Encoding button
+            string imageExtension = Path.GetExtension(preferences.ImagePath);
+            if (imageExtension.CompareTo(m_SupportedExtensions[0]) == 0)
+            {
+                format = stegaFactory.GetImplementationByFormat(ESupportedFormats.BmpFormat);
+                m_EncodedImage = new Bitmap(preferences.ImagePath);
+                format.Encode(ref m_EncodedImage, richTextBox1.Text);
+            }
+            else
+            {
+                if (imageExtension.CompareTo(m_SupportedExtensions[1]) == 0)
+                {
 
+                }
+                else
+                {
+                    if (imageExtension.CompareTo(m_SupportedExtensions[2]) == 0)
+                    {
+
+                    }
+                }
+            }
+            
         }
 
         private void ajutorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
         {
 
         }
