@@ -14,14 +14,15 @@ namespace SteganographyUI
 {
     public partial class Form1 : Form
     {
-        public String OpenImagePath { get; set; }
+        private PreferencesSingleton preferences = PreferencesSingleton.Instance;
+        
         private readonly OpenFileDialog OpenDialog = new OpenFileDialog();
         private SaveFileDialog SaveDialog = new SaveFileDialog();
-        private EAlgoSelect m_SelectedAlgorithm = EAlgoSelect.E_STEGA_ALGO;
+        
         public Form1()
         {
             InitializeComponent();
-
+            preferences.SelectedAlgorithm = EAlgoSelect.E_STEGA_ALGO;
         }
 
         private void selecteazaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -33,7 +34,9 @@ namespace SteganographyUI
             DialogResult result = OpenDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                OpenImagePath = OpenDialog.InitialDirectory + OpenDialog.FileName;
+                preferences.ImagePath = OpenDialog.InitialDirectory + OpenDialog.FileName;
+                pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                pictureBox1.ImageLocation = preferences.ImagePath;
             }
         }
 
@@ -81,13 +84,13 @@ namespace SteganographyUI
 
         private void algo1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            switch (m_SelectedAlgorithm)
+            switch (preferences.SelectedAlgorithm)
             {
                 case EAlgoSelect.E_STEGA_ALGO:
 
                     break;
                 case EAlgoSelect.E_BATTLESEG_ALGO:
-                    m_SelectedAlgorithm = EAlgoSelect.E_STEGA_ALGO;
+                    preferences.SelectedAlgorithm = EAlgoSelect.E_STEGA_ALGO;
                     algo1ToolStripMenuItem.CheckState = CheckState.Checked;
                     algo2ToolStripMenuItem.CheckState = CheckState.Unchecked;
                     break;
@@ -97,16 +100,26 @@ namespace SteganographyUI
 
         private void algo2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            switch (m_SelectedAlgorithm)
+            switch (preferences.SelectedAlgorithm)
             {
                 case EAlgoSelect.E_STEGA_ALGO:
-                    m_SelectedAlgorithm = EAlgoSelect.E_BATTLESEG_ALGO;
+                    preferences.SelectedAlgorithm = EAlgoSelect.E_BATTLESEG_ALGO;
                     algo2ToolStripMenuItem.CheckState = CheckState.Checked;
                     algo1ToolStripMenuItem.CheckState = CheckState.Unchecked;
                     break;
                 case EAlgoSelect.E_BATTLESEG_ALGO: break;
                 default: break;
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ajutorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

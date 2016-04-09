@@ -28,5 +28,7 @@ namespace SteganographyUI
         public Boolean AutoSave;
         public Boolean UsePassword;
         public String Password;
+        public String ImagePath;
+        public EAlgoSelect SelectedAlgorithm;
     }
 }

@@ -45,7 +45,6 @@ namespace SteganographyUI
             if (checkBox2.Checked == true)
             {
                 textBox1.ReadOnly = false;
-                //textBox2.ReadOnly = false;
                 button1.Enabled = false;
             }
             else
