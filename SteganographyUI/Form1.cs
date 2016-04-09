@@ -8,48 +8,76 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
-
+using System.IO;
+using System.Drawing.Imaging;
 namespace SteganographyUI
 {
     public partial class Form1 : Form
     {
+        public String OpenImagePath { get; set; }
+        private readonly OpenFileDialog OpenDialog = new OpenFileDialog();
+        private SaveFileDialog SaveDialog = new SaveFileDialog();
         public Form1()
         {
             InitializeComponent();
-            progressBar1.Step = 1;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-         //   Thread runningTread = new Thread(new ThreadStart(new RunOnThreadClass().executeSomething));
-           // runningTread.Start();
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
 
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void selecteazaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
-            if (checkBox1.Checked==true)
+            OpenDialog.Filter = "PNG Images|*.png|BMP Images|*.bmp|JPG Images|*.jpg";
+            OpenDialog.FilterIndex = 1;
+
+            OpenDialog.Multiselect = false;
+            DialogResult result = OpenDialog.ShowDialog();
+            if (result == DialogResult.OK)
             {
-                progressBar1.PerformStep();
+                OpenImagePath = OpenDialog.InitialDirectory + OpenDialog.FileName;
             }
+        }
+
+        private void salveazaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveDialog.Filter = "PNG Images|*.png|BMP Images|*.bmp|JPG Images|*.jpg";
+            SaveDialog.Title = "Salveaza";
+            SaveDialog.ShowDialog();
+
+            if (SaveDialog.FileName != "")
+            {
+
+                FileStream fs =
+                   (FileStream)SaveDialog.OpenFile();
+
+                switch (SaveDialog.FilterIndex)
+                {
+                    case 1:
+
+                        this.salveazaToolStripMenuItem.Image.Save(fs,
+                           ImageFormat.Png);
+                        break;
+
+                    case 2:
+                        this.salveazaToolStripMenuItem.Image.Save(fs,
+                           ImageFormat.Bmp);
+                        break;
+
+                    case 3:
+                        this.salveazaToolStripMenuItem.Image.Save(fs,
+                           ImageFormat.Jpeg);
+                        break;
+                }
+
+                fs.Close();
+            }
+        }
+
+        private void setariToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Preferinte pf = new Preferinte();
+            pf.ShowDialog();
         }
     }
 
-    //class RunOnThreadClass
-    //{
-    //    public void executeSomething()
-    //    {
-    //        while(true)
-    //        {
-    //            Console.WriteLine("On Thread");
-    //        }
 
-    //    }
-    //}
 
 }
