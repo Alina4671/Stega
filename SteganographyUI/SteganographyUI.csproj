@@ -53,6 +53,8 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="MessageDecoder.cs" />
+    <Compile Include="MessageEncoder.cs" />
     <Compile Include="PreferencesSingleton.cs" />
     <Compile Include="Preferinte.cs">
       <SubType>Form</SubType>

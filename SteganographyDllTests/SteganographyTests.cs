@@ -16,7 +16,7 @@ namespace SteganographyDllTests
         public void EncodeTest()
         {
             format = stegaFactory.GetImplementationByFormat(ESupportedFormats.BmpFormat);
-            Bitmap IndexedImage = new Bitmap("C:\\Users\\Alina\\Desktop\\Licenta\\test_licenta.bmp");
+            Bitmap IndexedImage = new Bitmap("C:\\Users\\Alina\\Desktop\\Licenta\\Resurse\\test_licenta.bmp");
 
             Bitmap bitmap = IndexedImage.Clone(new Rectangle(0, 0, IndexedImage.Width, IndexedImage.Height), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
@@ -24,7 +24,7 @@ namespace SteganographyDllTests
             
            
             format.Encode(ref bitmap, "Alina");
-            bitmap.Save("C:\\Users\\Alina\\Desktop\\Licenta\\test_modified2.bmp");
+            bitmap.Save("C:\\Users\\Alina\\Desktop\\Licenta\\Resurse\\test_modified2.bmp");
             //try
             //{
             //    using (Bitmap tempImage = new Bitmap(bitmap))
@@ -45,7 +45,7 @@ namespace SteganographyDllTests
         [TestMethod]
         public void DecodeTest()
         {
-            Bitmap bitmap = new Bitmap("C:\\Users\\Alina\\Desktop\\Licenta\\test_modified2.bmp");
+            Bitmap bitmap = new Bitmap("C:\\Users\\Alina\\Desktop\\Licenta\\Resurse\\test_modified2.bmp");
             String actual = "";
             String expected = "Alina";
             format = stegaFactory.GetImplementationByFormat(ESupportedFormats.BmpFormat);

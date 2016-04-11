@@ -140,7 +140,7 @@
             // ajutorToolStripMenuItem
             // 
             this.ajutorToolStripMenuItem.Name = "ajutorToolStripMenuItem";
-            this.ajutorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ajutorToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.ajutorToolStripMenuItem.Text = "Ajutor";
             this.ajutorToolStripMenuItem.Click += new System.EventHandler(this.ajutorToolStripMenuItem_Click);
             // 

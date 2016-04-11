@@ -165,9 +165,10 @@ namespace SteganographyDll
         {
             int colorUnitIndex = 0;
             int charValue = 0;
-            for (int i = 0; i < picture.Width; i++)
+            int numberOfZeroes = 0;
+            for (int i = 0; i < picture.Width && numberOfZeroes<NUMBER_OF_TRAILLING_ZEROES; i++)
             {
-                for (int j = 0; j < picture.Height; j++)
+                for (int j = 0; j < picture.Height && numberOfZeroes < NUMBER_OF_TRAILLING_ZEROES; j++)
                 {
                     Color pixel = picture.GetPixel(i, j);
                     for (int n = 0; n < 3; n++)
@@ -195,6 +196,10 @@ namespace SteganographyDll
                             {
                                 char c = (char)charValue;
                                 text += c.ToString();
+                            }
+                            else
+                            {
+                                numberOfZeroes++;
                             }
                         }
                     }

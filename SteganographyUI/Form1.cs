@@ -24,7 +24,7 @@ namespace SteganographyUI
         private ISteganographyFormats format;
         private readonly String[] m_SupportedExtensions = { ".bmp", ".png", ".jpg" };
         private Bitmap m_EncodedImage;
-
+        private StegaWorker worker = null;
 
         public Form1()
         {
@@ -130,28 +130,35 @@ namespace SteganographyUI
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
+            preferences.PlainText = richTextBox1.Text;
+            worker = MessageEncoder.Instance.SetPreferences(preferences);
+            Thread encodingThread = new Thread(worker.Work);
+            encodingThread.Start();
+
+
             //Encoding button
-            string imageExtension = Path.GetExtension(preferences.ImagePath);
-            if (imageExtension.CompareTo(m_SupportedExtensions[0]) == 0)
-            {
-                format = stegaFactory.GetImplementationByFormat(ESupportedFormats.BmpFormat);
-                m_EncodedImage = new Bitmap(preferences.ImagePath);
-                format.Encode(ref m_EncodedImage, richTextBox1.Text);
-            }
-            else
-            {
-                if (imageExtension.CompareTo(m_SupportedExtensions[1]) == 0)
-                {
+            //string imageExtension = Path.GetExtension(preferences.ImagePath);
+            //if (imageExtension.CompareTo(m_SupportedExtensions[0]) == 0)
+            //{
+            //    format = stegaFactory.GetImplementationByFormat(ESupportedFormats.BmpFormat);
+            //    m_EncodedImage = new Bitmap(preferences.ImagePath);
+            //    format.Encode(ref m_EncodedImage, richTextBox1.Text);
+            //}
+            //else
+            //{
+            //    if (imageExtension.CompareTo(m_SupportedExtensions[1]) == 0)
+            //    {
 
-                }
-                else
-                {
-                    if (imageExtension.CompareTo(m_SupportedExtensions[2]) == 0)
-                    {
+            //    }
+            //    else
+            //    {
+            //        if (imageExtension.CompareTo(m_SupportedExtensions[2]) == 0)
+            //        {
 
-                    }
-                }
-            }
+            //        }
+            //    }
+            //}
             
         }
 
@@ -162,7 +169,9 @@ namespace SteganographyUI
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            worker = MessageDecoder.Instance.SetPreferences(preferences);
+            Thread encodingThread = new Thread(worker.Work);
+            encodingThread.Start();
         }
     }
 
