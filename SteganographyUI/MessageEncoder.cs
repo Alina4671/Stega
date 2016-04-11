@@ -10,7 +10,7 @@ namespace SteganographyUI
 {
     public class MessageEncoder : StegaWorker
     {
-
+        private static MessageEncoder instance = null;
         private MessageEncoder() { }
         public static MessageEncoder Instance
         {
@@ -20,7 +20,7 @@ namespace SteganographyUI
                 {
                     instance = new MessageEncoder();
                 }
-                return (MessageEncoder)instance;
+                return instance;
             }
         }
 
@@ -44,6 +44,7 @@ namespace SteganographyUI
                         format = stegaFactory.GetImplementationByFormat(ESupportedFormats.BmpFormat);
 
                         format.Encode(ref image, prefsInstance.PlainText);
+                        OnWorkDone(EventArgs.Empty);
                     }
                     break;
                 default:

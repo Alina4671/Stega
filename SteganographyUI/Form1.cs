@@ -16,7 +16,7 @@ namespace SteganographyUI
     public partial class Form1 : Form
     {
         private PreferencesSingleton preferences = PreferencesSingleton.Instance;
-        
+
         private readonly OpenFileDialog OpenDialog = new OpenFileDialog();
         private SaveFileDialog SaveDialog = new SaveFileDialog();
 
@@ -25,7 +25,7 @@ namespace SteganographyUI
         private readonly String[] m_SupportedExtensions = { ".bmp", ".png", ".jpg" };
         private Bitmap m_EncodedImage;
         private StegaWorker worker = null;
-
+        private Image encodedImage = null;
         public Form1()
         {
             InitializeComponent();
@@ -58,6 +58,10 @@ namespace SteganographyUI
 
         private void salveazaToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (encodedImage == null)
+            {
+                return;
+            }
             SaveDialog.Filter = "PNG Images|*.png|BMP Images|*.bmp|JPG Images|*.jpg";
             SaveDialog.Title = "Salveaza";
             SaveDialog.ShowDialog();
@@ -72,17 +76,17 @@ namespace SteganographyUI
                 {
                     case 1:
 
-                        this.salveazaToolStripMenuItem.Image.Save(fs,
+                        encodedImage.Save(fs,
                            ImageFormat.Png);
                         break;
 
                     case 2:
-                        this.salveazaToolStripMenuItem.Image.Save(fs,
+                        encodedImage.Save(fs,
                            ImageFormat.Bmp);
                         break;
 
                     case 3:
-                        this.salveazaToolStripMenuItem.Image.Save(fs,
+                        encodedImage.Save(fs,
                            ImageFormat.Jpeg);
                         break;
                 }
@@ -130,9 +134,10 @@ namespace SteganographyUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+
             preferences.PlainText = richTextBox1.Text;
             worker = MessageEncoder.Instance.SetPreferences(preferences);
+            worker.WorkDone += OnEncodeDone;
             Thread encodingThread = new Thread(worker.Work);
             encodingThread.Start();
 
@@ -159,8 +164,10 @@ namespace SteganographyUI
             //        }
             //    }
             //}
-            
+
         }
+
+
 
         private void ajutorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -170,8 +177,51 @@ namespace SteganographyUI
         private void button2_Click(object sender, EventArgs e)
         {
             worker = MessageDecoder.Instance.SetPreferences(preferences);
-            Thread encodingThread = new Thread(worker.Work);
-            encodingThread.Start();
+            worker.WorkDone += OnDecodeDone;
+            Thread decodingThread = new Thread(worker.Work);
+            decodingThread.Start();
+
+
+        }
+
+        private void OnEncodeDone(object sender, EventArgs e)
+        {
+            encodedImage = ((MessageEncoder)worker).GetImage();
+            if(preferences.AutoSave==true)
+            {
+                
+                //FileStream fs = File.Open(preferences.ImagePath, FileMode.Open, FileAccess.Write, FileShare.Read);
+                    //new FileStream(preferences.ImagePath, FileMode.Open);
+                    
+                string imageExtension = Path.GetExtension(preferences.ImagePath);
+                switch(imageExtension)
+                {
+                    case ".bmp":
+                        Image saved = new Bitmap(encodedImage);
+                        encodedImage.Dispose();
+                        encodedImage = null;
+                        saved.Save(preferences.ImagePath,ImageFormat.Bmp);
+                        break;
+                    case ".png":
+                        encodedImage.Save(preferences.ImagePath,
+                          ImageFormat.Png);
+                        break;
+                    case ".jpg":
+                        encodedImage.Save(preferences.ImagePath,
+                          ImageFormat.Jpeg);
+                        break;
+                    default:
+                        break;
+                }
+                
+            }
+            MessageBox.Show("Ascunderea mesajului s-a terminat!");
+        }
+    
+        private void OnDecodeDone(object sender, EventArgs e)
+        {
+            Invoke(new Action(() => richTextBox1.Text = ((MessageDecoder)worker).GetDecodedText()));
+            MessageBox.Show("Extragerea mesajului s-a terminat!");
         }
     }
 
