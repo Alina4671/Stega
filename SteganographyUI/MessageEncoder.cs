@@ -25,8 +25,8 @@ namespace SteganographyUI
         }
 
 
-        private Bitmap image = null;
-        public Bitmap GetImage()
+        private Image image = null;
+        public Image GetImage()
         {
             return image;
         }
@@ -34,27 +34,43 @@ namespace SteganographyUI
 
         public override void Work()
         {
-            image = new Bitmap(prefsInstance.ImagePath);
+
+            image = Image.FromFile(prefsInstance.ImagePath);
+            byte[] hiddenArrayBytes = null;
+            if (prefsInstance.EncodingDataIndex == 0x01)
+            {
+                hiddenArrayBytes = Encoding.ASCII.GetBytes(prefsInstance.PlainText);
+            }
+            else
+            {
+                if (prefsInstance.EncodingDataIndex == 0x02)
+                {
+                    hiddenArrayBytes = Utils.BitmapToByteArray(Image.FromFile(prefsInstance.HiddenImagePath));
+                }
+            }
+
+            AlgoFormatImpl = stegaFactory.GetImplementationByFormat(ESupportedAlgorithms.ClasicAlgo);
+
+            AlgoFormatImpl.Encode(ref image, hiddenArrayBytes);
+            OnWorkDone(EventArgs.Empty);
+
+        }
+
+        public override StegaWorker SetPreferences(PreferencesSingleton prefsInstance)
+        {
+            this.prefsInstance = prefsInstance;
             switch (prefsInstance.SelectedAlgorithm)
             {
                 case EAlgoSelect.E_BATTLESEG_ALGO:
                     break;
                 case EAlgoSelect.E_STEGA_ALGO:
                     {
-                        format = stegaFactory.GetImplementationByFormat(ESupportedFormats.BmpFormat);
-
-                        format.Encode(ref image, prefsInstance.PlainText);
-                        OnWorkDone(EventArgs.Empty);
+                        AlgoFormatImpl = stegaFactory.GetImplementationByFormat(ESupportedAlgorithms.ClasicAlgo);
                     }
                     break;
                 default:
                     break;
             }
-        }
-
-        public override StegaWorker SetPreferences(PreferencesSingleton prefsInstance)
-        {
-            this.prefsInstance = prefsInstance;
             return this;
         }
     }

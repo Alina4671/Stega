@@ -8,7 +8,7 @@ using SteganographyDll;
 using System.Drawing;
 namespace SteganographyUI
 {
-    public class MessageDecoder: StegaWorker
+    public class MessageDecoder : StegaWorker
     {
 
         private static MessageDecoder instance = null;
@@ -26,34 +26,57 @@ namespace SteganographyUI
         }
 
 
-        private String decodedText=null;
+        private String decodedText = null;
+        private Image decodedImage = null;
         public String GetDecodedText()
         {
             return decodedText;
         }
-      
+        public Image GetDecodedImage()
+        {
+            return decodedImage;
+        }
+
         public override void Work()
         {
-            Bitmap image = new Bitmap(prefsInstance.ImagePath);
+            Image image = Image.FromFile(prefsInstance.ImagePath);
+
+            AlgoFormatImpl = stegaFactory.GetImplementationByFormat(ESupportedAlgorithms.ClasicAlgo);
+            byte[] byteArrayText = null;
+            AlgoFormatImpl.Decode(image, ref byteArrayText);
+            if (prefsInstance.EncodingDataIndex == 0x01)
+            {
+                decodedText = Encoding.Default.GetString(byteArrayText);
+            }
+            else
+            {
+                if (prefsInstance.EncodingDataIndex == 0x02)
+                {
+                    decodedImage = Utils.ByteArrayToBitmap(byteArrayText);
+                }
+            }
+
+
+            OnWorkDone(EventArgs.Empty);
+
+        }
+
+        public override StegaWorker SetPreferences(PreferencesSingleton prefsInstance)
+        {
+            this.prefsInstance = prefsInstance;
             switch (prefsInstance.SelectedAlgorithm)
             {
                 case EAlgoSelect.E_BATTLESEG_ALGO:
                     break;
                 case EAlgoSelect.E_STEGA_ALGO:
                     {
-                        format = stegaFactory.GetImplementationByFormat(ESupportedFormats.BmpFormat);
-                        format.Decode(image, ref decodedText);
+                        AlgoFormatImpl = stegaFactory.GetImplementationByFormat(ESupportedAlgorithms.ClasicAlgo);
                         OnWorkDone(EventArgs.Empty);
                     }
                     break;
                 default:
                     break;
             }
-        }
-
-        public override StegaWorker SetPreferences(PreferencesSingleton prefsInstance)
-        {
-            this.prefsInstance = prefsInstance;
             return this;
         }
     }

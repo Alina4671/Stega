@@ -8,12 +8,12 @@ namespace SteganographyDll
 {
     class SteganographyFactory:SteganographyAbstractFactory
     {
-        public override ISteganographyFormats GetImplementationByFormat(ESupportedFormats format)
+        public override ISteganographyAlgorithms GetImplementationByFormat(ESupportedAlgorithms format)
         {
             switch(format)
             {
-                case ESupportedFormats.BmpFormat:
-                    return new BmpFormat();
+                case ESupportedAlgorithms.ClasicAlgo:
+                    return new ClassicAlgorithm();
                 default:
                     throw new NotImplementedException();
             }

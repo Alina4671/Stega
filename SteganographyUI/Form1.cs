@@ -20,14 +20,18 @@ namespace SteganographyUI
         private readonly OpenFileDialog OpenDialog = new OpenFileDialog();
         private SaveFileDialog SaveDialog = new SaveFileDialog();
 
-        private SteganographyAbstractFactory stegaFactory = SteganographyProducer.GetFactory();
-        private ISteganographyFormats format;
+        private ISteganographyAlgorithms format;
         private readonly String[] m_SupportedExtensions = { ".bmp", ".png", ".jpg" };
         private Bitmap m_EncodedImage;
         private StegaWorker worker = null;
         private Image encodedImage = null;
+     
+
+        private Preferinte pf;
+
         public Form1()
         {
+            
             InitializeComponent();
             initUiComponentsDefaultStates();
         }
@@ -53,6 +57,7 @@ namespace SteganographyUI
                 pictureBox1.ImageLocation = preferences.ImagePath;
                 button1.Enabled = true;
                 button2.Enabled = true;
+                
             }
         }
 
@@ -97,7 +102,7 @@ namespace SteganographyUI
 
         private void setariToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Preferinte pf = new Preferinte();
+            pf = new Preferinte();
             pf.ShowDialog();
         }
 
@@ -135,39 +140,23 @@ namespace SteganographyUI
         private void button1_Click(object sender, EventArgs e)
         {
 
-            preferences.PlainText = richTextBox1.Text;
+         
             worker = MessageEncoder.Instance.SetPreferences(preferences);
             worker.WorkDone += OnEncodeDone;
+            format =((MessageEncoder) worker).AlgoFormatImpl;
+            format.ProgressUpdateEncode += OnEncodeProgressUpdate;
             Thread encodingThread = new Thread(worker.Work);
             encodingThread.Start();
 
 
-            //Encoding button
-            //string imageExtension = Path.GetExtension(preferences.ImagePath);
-            //if (imageExtension.CompareTo(m_SupportedExtensions[0]) == 0)
-            //{
-            //    format = stegaFactory.GetImplementationByFormat(ESupportedFormats.BmpFormat);
-            //    m_EncodedImage = new Bitmap(preferences.ImagePath);
-            //    format.Encode(ref m_EncodedImage, richTextBox1.Text);
-            //}
-            //else
-            //{
-            //    if (imageExtension.CompareTo(m_SupportedExtensions[1]) == 0)
-            //    {
-
-            //    }
-            //    else
-            //    {
-            //        if (imageExtension.CompareTo(m_SupportedExtensions[2]) == 0)
-            //        {
-
-            //        }
-            //    }
-            //}
+          
 
         }
 
-
+        private void OnEncodeProgressUpdate(object sender, ProgressNotification e)
+        {
+            progressBar1.Value = e.EncodeProgress;
+        }
 
         private void ajutorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -178,10 +167,17 @@ namespace SteganographyUI
         {
             worker = MessageDecoder.Instance.SetPreferences(preferences);
             worker.WorkDone += OnDecodeDone;
+            format = worker.AlgoFormatImpl;
+            format.ProgressUpdateDecode += OnDecodeProgressUpdate;
             Thread decodingThread = new Thread(worker.Work);
             decodingThread.Start();
 
 
+        }
+
+        private void OnDecodeProgressUpdate(object sender, ProgressNotification e)
+        {
+            progressBar1.Value = e.DecodeProgress;
         }
 
         private void OnEncodeDone(object sender, EventArgs e)
@@ -220,9 +216,29 @@ namespace SteganographyUI
     
         private void OnDecodeDone(object sender, EventArgs e)
         {
-            Invoke(new Action(() => richTextBox1.Text = ((MessageDecoder)worker).GetDecodedText()));
+            if(preferences.EncodingDataIndex==0x01)
+            { 
+                Invoke(new Action(() => label1.Text = ((MessageDecoder)worker).GetDecodedText()));
+            }
+            else
+            {
+                if(preferences.EncodingDataIndex==0x02)
+                {
+                    
+                    Invoke(new Action(() => pictureBox1.Image = ((MessageDecoder)worker).GetDecodedImage()));
+                    
+                   
+                }
+            }
             MessageBox.Show("Extragerea mesajului s-a terminat!");
         }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+        }
+
+
     }
 
 

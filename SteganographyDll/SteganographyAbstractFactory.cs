@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace SteganographyDll
 {
-    public enum ESupportedFormats
+    public enum ESupportedAlgorithms
     {
-        BmpFormat=0x00
+        ClasicAlgo=0x00
     }
     public abstract class SteganographyAbstractFactory
     {
-        public abstract ISteganographyFormats GetImplementationByFormat(ESupportedFormats format);
+        public abstract ISteganographyAlgorithms GetImplementationByFormat(ESupportedAlgorithms format);
     }
 }

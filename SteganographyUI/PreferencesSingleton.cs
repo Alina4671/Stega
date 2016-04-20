@@ -29,8 +29,9 @@ namespace SteganographyUI
         public Boolean UsePassword { get; set; }
         public String Password { get; set; }
         public String ImagePath { get; set; }
+        public String HiddenImagePath { get; set; }
         public EAlgoSelect SelectedAlgorithm { get; set; }
         public String PlainText { get; set; }
-        
+        public byte EncodingDataIndex { get; set; }
     }
 }

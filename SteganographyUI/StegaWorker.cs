@@ -9,7 +9,7 @@ namespace SteganographyUI
     public abstract class StegaWorker
     {
         protected SteganographyAbstractFactory stegaFactory = SteganographyProducer.GetFactory();
-        protected ISteganographyFormats format;
+        public ISteganographyAlgorithms AlgoFormatImpl { get; set; }
         protected PreferencesSingleton prefsInstance = null;
 
        

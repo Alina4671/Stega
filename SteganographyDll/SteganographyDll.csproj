@@ -40,16 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BmpFormat.cs" />
-    <Compile Include="ISteganographyFormats.cs" />
+    <Compile Include="ClassicAlgorithm.cs" />
+    <Compile Include="ISteganographyAlgorithms.cs" />
+    <Compile Include="ProgressNotification.cs" />
     <Compile Include="SteganographyAbstractFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SteganographyFactory.cs" />
     <Compile Include="SteganographyProducer.cs" />
     <Compile Include="TextTooLongException.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="ClassDiagram3.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
