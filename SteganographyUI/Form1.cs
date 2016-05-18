@@ -107,40 +107,14 @@ namespace SteganographyUI
         }
 
 
-        private void algo1ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            switch (preferences.SelectedAlgorithm)
-            {
-                case EAlgoSelect.E_STEGA_ALGO:
+     
 
-                    break;
-                case EAlgoSelect.E_BATTLESEG_ALGO:
-                    preferences.SelectedAlgorithm = EAlgoSelect.E_STEGA_ALGO;
-                    algo1ToolStripMenuItem.CheckState = CheckState.Checked;
-                    algo2ToolStripMenuItem.CheckState = CheckState.Unchecked;
-                    break;
-                default: break;
-            }
-        }
 
-        private void algo2ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            switch (preferences.SelectedAlgorithm)
-            {
-                case EAlgoSelect.E_STEGA_ALGO:
-                    preferences.SelectedAlgorithm = EAlgoSelect.E_BATTLESEG_ALGO;
-                    algo2ToolStripMenuItem.CheckState = CheckState.Checked;
-                    algo1ToolStripMenuItem.CheckState = CheckState.Unchecked;
-                    break;
-                case EAlgoSelect.E_BATTLESEG_ALGO: break;
-                default: break;
-            }
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
 
-         
+            preferences.SelectedAlgorithm = EAlgoSelect.E_STEGA_ALGO;
             worker = MessageEncoder.Instance.SetPreferences(preferences);
             worker.WorkDone += OnEncodeDone;
             format =((MessageEncoder) worker).AlgoFormatImpl;
@@ -165,6 +139,7 @@ namespace SteganographyUI
 
         private void button2_Click(object sender, EventArgs e)
         {
+            preferences.SelectedAlgorithm = EAlgoSelect.E_STEGA_ALGO;
             worker = MessageDecoder.Instance.SetPreferences(preferences);
             worker.WorkDone += OnDecodeDone;
             format = worker.AlgoFormatImpl;

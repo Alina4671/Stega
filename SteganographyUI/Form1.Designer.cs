@@ -33,9 +33,6 @@
             this.selecteazaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salveazaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preferinteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.algoritmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.algo1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.algo2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setariToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.despreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ajutorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,42 +89,15 @@
             // preferinteToolStripMenuItem
             // 
             this.preferinteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.algoritmToolStripMenuItem,
             this.setariToolStripMenuItem});
             this.preferinteToolStripMenuItem.Name = "preferinteToolStripMenuItem";
             this.preferinteToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
             this.preferinteToolStripMenuItem.Text = "Preferinte";
             // 
-            // algoritmToolStripMenuItem
-            // 
-            this.algoritmToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.algo1ToolStripMenuItem,
-            this.algo2ToolStripMenuItem});
-            this.algoritmToolStripMenuItem.Name = "algoritmToolStripMenuItem";
-            this.algoritmToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
-            this.algoritmToolStripMenuItem.Text = "Algoritm";
-            // 
-            // algo1ToolStripMenuItem
-            // 
-            this.algo1ToolStripMenuItem.Checked = true;
-            this.algo1ToolStripMenuItem.CheckOnClick = true;
-            this.algo1ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.algo1ToolStripMenuItem.Name = "algo1ToolStripMenuItem";
-            this.algo1ToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
-            this.algo1ToolStripMenuItem.Text = "Algo1";
-            this.algo1ToolStripMenuItem.Click += new System.EventHandler(this.algo1ToolStripMenuItem_Click);
-            // 
-            // algo2ToolStripMenuItem
-            // 
-            this.algo2ToolStripMenuItem.Name = "algo2ToolStripMenuItem";
-            this.algo2ToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
-            this.algo2ToolStripMenuItem.Text = "Algo2";
-            this.algo2ToolStripMenuItem.Click += new System.EventHandler(this.algo2ToolStripMenuItem_Click);
-            // 
             // setariToolStripMenuItem
             // 
             this.setariToolStripMenuItem.Name = "setariToolStripMenuItem";
-            this.setariToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.setariToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.setariToolStripMenuItem.Text = "Setari";
             this.setariToolStripMenuItem.Click += new System.EventHandler(this.setariToolStripMenuItem_Click);
             // 
@@ -232,9 +202,6 @@
         private System.Windows.Forms.ToolStripMenuItem selecteazaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem salveazaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem preferinteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem algoritmToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem algo1ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem algo2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setariToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem despreToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ajutorToolStripMenuItem;
