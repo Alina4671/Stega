@@ -44,6 +44,10 @@ namespace SteganographyDll
         {
             byte[] imageBytes = Utils.RgbComponentsToBytes(picture);
             byte[] hiddenLengthBytes = DecodeBytes(imageBytes, 0, sizeof(Int32));
+            if (hiddenLengthBytes == null)
+            {
+                text = Encoding.ASCII.GetBytes(new string(' ', 1));
+            }
             Int32 hiddenLength = BitConverter.ToInt32(hiddenLengthBytes, 0);
             byte[] hiddenBytes = DecodeBytes(imageBytes, sizeof(Int32), hiddenLength);
             text = hiddenBytes;
@@ -88,7 +92,16 @@ namespace SteganographyDll
             decodeProgress = 0;
             Int32 bitCount = byteCount * noOfBitsInByte;
             Int32 bitIndex = byteIndex * noOfBitsInByte;
-            bool[] hiddenBools = new bool[bitCount];
+            bool[] hiddenBools = null; 
+            try
+            {
+                hiddenBools = new bool[bitCount];
+            }
+            catch(System.OverflowException e)
+            {
+                return null;
+            }
+             
             for (Int32 i = 0; i < bitCount; i++)
             {
                 hiddenBools[i] = (imageBytes[i + bitIndex] % 2 == 1);

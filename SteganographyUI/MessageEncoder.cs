@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using SteganographyDll;
 using System.Drawing;
+using System.Windows.Forms;
+
 namespace SteganographyUI
 {
     public class MessageEncoder : StegaWorker
@@ -34,21 +36,35 @@ namespace SteganographyUI
 
         public override void Work()
         {
-
+            string encryptedText = "";
             image = Image.FromFile(prefsInstance.ImagePath);
             byte[] hiddenArrayBytes = null;
-            if (prefsInstance.EncodingDataIndex == 0x01)
+            switch(prefsInstance.EncodingDataIndex)
             {
-                hiddenArrayBytes = Encoding.ASCII.GetBytes(prefsInstance.PlainText);
-            }
-            else
-            {
-                if (prefsInstance.EncodingDataIndex == 0x02)
-                {
-                    hiddenArrayBytes = Utils.BitmapToByteArray(Image.FromFile(prefsInstance.HiddenImagePath));
-                }
-            }
+                case 0x01:
+                    {
 
+                        if (prefsInstance.UsePassword == true)
+                        {
+                            encryptedText = Crypto.EncryptStringAES(prefsInstance.PlainText, prefsInstance.Password);
+                        }
+                        else
+                        {
+                            encryptedText = prefsInstance.PlainText;
+                        }
+                        hiddenArrayBytes = Encoding.ASCII.GetBytes(encryptedText);
+                    }
+                    break;
+                case 0x02:
+                    {
+                        hiddenArrayBytes = Utils.BitmapToByteArray(Image.FromFile(prefsInstance.HiddenImagePath));
+                    }
+                    break;
+                default:
+                    MessageBox.Show("Completati campurile din setari!", "Atentie!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+
+            }            
             AlgoFormatImpl = stegaFactory.GetImplementationByFormat(ESupportedAlgorithms.ClasicAlgo);
 
             AlgoFormatImpl.Encode(ref image, hiddenArrayBytes);

@@ -146,5 +146,10 @@ namespace SteganographyUI
         {
             updateUiAccordingToComboBoxItem();
         }
+
+        private void Preferinte_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -217,8 +217,26 @@ namespace SteganographyUI
         private void OnDecodeDone(object sender, EventArgs e)
         {
             if(preferences.EncodingDataIndex==0x01)
-            { 
-                Invoke(new Action(() => label1.Text = ((MessageDecoder)worker).GetDecodedText()));
+            {
+                String decodedText = ((MessageDecoder)worker).GetDecodedText();
+                decodedText=decodedText.Trim('\t');
+                if(String.IsNullOrEmpty(decodedText))
+                {
+                    label1.ForeColor = System.Drawing.Color.Red;
+                    decodedText = "Extragerea mesajului nereusita!";
+                    
+                }
+                foreach(char c in decodedText.ToCharArray())
+                {
+                    if(char.IsControl(c) )
+                    {
+                        label1.ForeColor = System.Drawing.Color.Red;
+                        decodedText = "Extragerea mesajului nereusita!";
+                        break;
+                    }
+                }
+
+                Invoke(new Action(() => label1.Text = decodedText));
             }
             else
             {
